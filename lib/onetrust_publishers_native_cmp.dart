@@ -11,7 +11,7 @@ class OTPublishersNativeSDK {
       MethodChannel('onetrust_publishers_native_cmp');
 
   static Future<bool> startSDK(
-      String storageLocation, String domainIdentifier, String languageCode,String? sdkVersion,
+      String storageLocation, String domainIdentifier, String languageCode, String? sdkVersion,
       [Map<String, String>? otInitParams]) async {
     final bool status = await _channel.invokeMethod('startSDK', {
       'storageLocation': storageLocation,

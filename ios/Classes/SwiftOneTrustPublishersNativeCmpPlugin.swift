@@ -72,7 +72,9 @@ public class SwiftOneTrustPublishersNativeCmpPlugin: NSObject, FlutterPlugin {
             if let otParams = args["otInitParams"] as? [String:String]{
                 params = OTSdkParams(countryCode: otParams["countryCode"], regionCode: otParams["regionCode"])
             }
-            params?.setSDKVersion(sdkVersion)
+            if let sdkVersion = sdkVersion {
+                params?.setSDKVersion(sdkVersion)
+            }
             
             OTPublishersHeadlessSDK.shared.startSDK(storageLocation: storageLocation,
                                                     domainIdentifier:domainIdentifier,
