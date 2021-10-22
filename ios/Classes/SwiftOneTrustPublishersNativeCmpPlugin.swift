@@ -64,23 +64,23 @@ public class SwiftOneTrustPublishersNativeCmpPlugin: NSObject, FlutterPlugin {
     private func startSDK(call:FlutterMethodCall, result: @escaping FlutterResult){
         guard let arguments = call.arguments else {return}
         if let args = arguments as? [String:Any],
-           let storageLocation = args["storageLocation"] as? String,
-           let domainIdentifier = args["domainIdentifier"] as? String,
-           let languageCode = args["languageCode"] as? String{
-            var params:OTSdkParams? = nil
-            if let otParams = args["otInitParams"] as? [String:String]{
-                params = OTSdkParams(countryCode: otParams["countryCode"], regionCode: otParams["regionCode"])
-            }
-            if let sdkVersion = args["sdkVersion"] as? String {
-                params?.setSDKVersion(sdkVersion)
-            }
+            let storageLocation = args["storageLocation"] as? String,
+            let domainIdentifier = args["domainIdentifier"] as? String,
+            let languageCode = args["languageCode"] as? String {
+                var params:OTSdkParams? = OTSdkParams(countryCode: nil, regionCode: nil)
+                if let otParams = args["otInitParams"] as? [String:String]{
+                    params = OTSdkParams(countryCode: otParams["countryCode"], regionCode: otParams["regionCode"])
+                }
+                if let sdkVersion = args["sdkVersion"] as? String {
+                    params?.setSDKVersion(sdkVersion)
+                }
             
-            OTPublishersHeadlessSDK.shared.startSDK(storageLocation: storageLocation,
-                                                    domainIdentifier:domainIdentifier,
-                                                    languageCode: languageCode,
-                                                    params: params){(otResponse) in
-                print("Status = \(otResponse.status) and error = \(String(describing: otResponse.error))")
-                result(otResponse.status)
+                OTPublishersHeadlessSDK.shared.startSDK(storageLocation: storageLocation,
+                                                        domainIdentifier:domainIdentifier,
+                                                        languageCode: languageCode,
+                                                        params: params) {(otResponse) in
+                    print("Status = \(otResponse.status) and error = \(String(describing: otResponse.error))")
+                    result(otResponse.status)
             }
         }
     }
